@@ -15,13 +15,13 @@ class EducationHistory extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final _pdfProvider = ref.watch(pdfProvider);
 
-    List<Section> educationList = _pdfProvider.education!;
+    final educationList = _pdfProvider.education!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -49,7 +49,9 @@ class EducationHistory extends ConsumerWidget {
                   child: SectionFullWidget(
                     section: educationList[index],
                     onPressed: () {
-                      ref.read(pdfProvider.notifier).removeEducationSection(educationList[index]);
+                      ref.read(pdfProvider.notifier).removeEducationSection(
+                            educationList[index],
+                          );
                     },
                   ),
                 );
@@ -60,11 +62,14 @@ class EducationHistory extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: SimpleElevatedButton(
-                buttonWidth: double.infinity,
-                onPressed: () {
-                  ref.read(pdfProvider.notifier).addEducationSection(Section.createEmpty());
-                },
-                text: 'Add another education'),
+              buttonWidth: double.infinity,
+              onPressed: () {
+                ref
+                    .read(pdfProvider.notifier)
+                    .addEducationSection(Section.createEmpty());
+              },
+              text: 'Add another education',
+            ),
           )
         ],
       ),
@@ -83,10 +88,10 @@ class SectionFullWidget extends ConsumerStatefulWidget {
   final Section section;
 
   @override
-  _SectionFullWidgetState createState() => _SectionFullWidgetState();
+  SectionFullWidgetState createState() => SectionFullWidgetState();
 }
 
-class _SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
+class SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
   TextEditingController jobController = TextEditingController();
   TextEditingController employerController = TextEditingController();
   TextEditingController cityController = TextEditingController();
@@ -99,28 +104,34 @@ class _SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
         if (checkChangeText(jobController.text, widget.section.textOne)) {
-          jobController.text = widget.section.textOne ?? "";
+          jobController.text = widget.section.textOne ?? '';
         }
         if (checkChangeText(employerController.text, widget.section.textTwo)) {
-          employerController.text = widget.section.textTwo ?? "";
+          employerController.text = widget.section.textTwo ?? '';
         }
         if (checkChangeText(cityController.text, widget.section.textThree)) {
-          cityController.text = widget.section.textThree ?? "";
+          cityController.text = widget.section.textThree ?? '';
         }
-        if (checkChangeText(startDateController.text, widget.section.startDate)) {
-          startDateController.text = widget.section.startDate ?? "";
+        if (checkChangeText(
+          startDateController.text,
+          widget.section.startDate,
+        )) {
+          startDateController.text = widget.section.startDate ?? '';
         }
         if (checkChangeText(endDateController.text, widget.section.endDate)) {
-          endDateController.text = widget.section.endDate ?? "";
+          endDateController.text = widget.section.endDate ?? '';
         }
-        if (checkChangeText(descriptionController.text, widget.section.description)) {
-          descriptionController.text = widget.section.description ?? "";
+        if (checkChangeText(
+          descriptionController.text,
+          widget.section.description,
+        )) {
+          descriptionController.text = widget.section.description ?? '';
         }
       });
     });
 
     return BorderedExpansionTile(
-      title: widget.section.textOne ?? "Test",
+      title: widget.section.textOne ?? 'Test',
       children: [
         Row(
           children: [
@@ -129,7 +140,9 @@ class _SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
                 textEditingController: jobController,
                 labelText: 'School',
                 onTextChanged: (val) {
-                  ref.read(pdfProvider.notifier).editEducationSection(widget.section.copyWith(textOne: val));
+                  ref.read(pdfProvider.notifier).editEducationSection(
+                        widget.section.copyWith(textOne: val),
+                      );
                 },
               ),
             ),
@@ -138,7 +151,9 @@ class _SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
                 textEditingController: employerController,
                 labelText: 'Degree',
                 onTextChanged: (val) {
-                  ref.read(pdfProvider.notifier).editEducationSection(widget.section.copyWith(textTwo: val));
+                  ref.read(pdfProvider.notifier).editEducationSection(
+                        widget.section.copyWith(textTwo: val),
+                      );
                 },
               ),
             ),
@@ -154,7 +169,9 @@ class _SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
                       textEditingController: startDateController,
                       labelText: 'Start Date',
                       onTextChanged: (val) {
-                        ref.read(pdfProvider.notifier).editEducationSection(widget.section.copyWith(startDate: val));
+                        ref.read(pdfProvider.notifier).editEducationSection(
+                              widget.section.copyWith(startDate: val),
+                            );
                       },
                     ),
                   ),
@@ -163,7 +180,9 @@ class _SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
                       textEditingController: endDateController,
                       labelText: 'End Date',
                       onTextChanged: (val) {
-                        ref.read(pdfProvider.notifier).editEducationSection(widget.section.copyWith(endDate: val));
+                        ref.read(pdfProvider.notifier).editEducationSection(
+                              widget.section.copyWith(endDate: val),
+                            );
                       },
                     ),
                   ),
@@ -175,7 +194,9 @@ class _SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
                 textEditingController: cityController,
                 labelText: 'City',
                 onTextChanged: (val) {
-                  ref.read(pdfProvider.notifier).editEducationSection(widget.section.copyWith(textThree: val));
+                  ref.read(pdfProvider.notifier).editEducationSection(
+                        widget.section.copyWith(textThree: val),
+                      );
                 },
               ),
             ),
@@ -184,19 +205,22 @@ class _SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
         RectBorderFormField(
           maxLines: 9,
           maxLength: 500,
-          labelText: "Description",
+          labelText: 'Description',
           textEditingController: descriptionController,
           onTextChanged: (val) {
-            ref.read(pdfProvider.notifier).editEducationSection(widget.section.copyWith(description: val));
+            ref.read(pdfProvider.notifier).editEducationSection(
+                  widget.section.copyWith(description: val),
+                );
           },
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: SimpleOutlinedButton(
-              color: Pallete.errorColor,
-              buttonWidth: double.infinity,
-              onPressed: () => widget.onPressed(),
-              text: 'Remove this education'),
+            color: Pallete.errorColor,
+            buttonWidth: double.infinity,
+            onPressed: () => widget.onPressed(),
+            text: 'Remove this education',
+          ),
         )
       ],
     );

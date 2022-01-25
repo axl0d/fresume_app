@@ -5,12 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 ThemeData lightThemeDta = ThemeData(
   primarySwatch: Colors.indigo,
   primaryColor: Pallete.primaryColor,
-//  colorScheme: ColorScheme.fromSwatch().copyWith(primary: Pallete.primaryColor, secondary: Pallete.primaryColor),
- textTheme:textTheme,
-
+  textTheme: textTheme,
 );
-
-
 
 TextTheme textTheme = TextTheme(
   headline1: headline96,
@@ -30,9 +26,7 @@ TextTheme textTheme = TextTheme(
 
 TextStyle headline96 = GoogleFonts.nunito(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 96,
     fontWeight: FontWeight.w300,
     fontStyle: FontStyle.normal,
@@ -46,9 +40,7 @@ TextStyle headline96 = GoogleFonts.nunito(
 
 TextStyle headline60 = GoogleFonts.nunito(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 60,
     fontWeight: FontWeight.w300,
     fontStyle: FontStyle.normal,
@@ -62,13 +54,11 @@ TextStyle headline60 = GoogleFonts.nunito(
 
 TextStyle headline48 = GoogleFonts.nunito(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 48,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
-    letterSpacing: 0.0,
+    letterSpacing: 0,
     textBaseline: TextBaseline.alphabetic,
     leadingDistribution: TextLeadingDistribution.even,
     debugLabel: 'Headline3',
@@ -78,9 +68,7 @@ TextStyle headline48 = GoogleFonts.nunito(
 
 TextStyle headline34 = GoogleFonts.nunito(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 34,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
@@ -94,13 +82,11 @@ TextStyle headline34 = GoogleFonts.nunito(
 
 TextStyle headline24 = GoogleFonts.nunito(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 24,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
-    letterSpacing: 0.0,
+    letterSpacing: 0,
     textBaseline: TextBaseline.alphabetic,
     leadingDistribution: TextLeadingDistribution.even,
     debugLabel: 'Headline5',
@@ -110,9 +96,7 @@ TextStyle headline24 = GoogleFonts.nunito(
 
 TextStyle headline20 = GoogleFonts.nunito(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 20,
     fontWeight: FontWeight.w500,
     fontStyle: FontStyle.normal,
@@ -126,9 +110,7 @@ TextStyle headline20 = GoogleFonts.nunito(
 
 TextStyle subtitle16 = GoogleFonts.nunito(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 16,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
@@ -142,9 +124,7 @@ TextStyle subtitle16 = GoogleFonts.nunito(
 
 TextStyle subtitle14 = GoogleFonts.nunito(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 14,
     fontWeight: FontWeight.w500,
     fontStyle: FontStyle.normal,
@@ -157,9 +137,7 @@ TextStyle subtitle14 = GoogleFonts.nunito(
 );
 TextStyle bodyText16 = GoogleFonts.notoSans(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 16,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
@@ -173,9 +151,7 @@ TextStyle bodyText16 = GoogleFonts.notoSans(
 
 TextStyle bodyText14 = GoogleFonts.notoSans(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 14,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
@@ -189,9 +165,7 @@ TextStyle bodyText14 = GoogleFonts.notoSans(
 
 TextStyle caption12 = GoogleFonts.notoSans(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 12,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,
@@ -205,9 +179,7 @@ TextStyle caption12 = GoogleFonts.notoSans(
 
 TextStyle button14 = GoogleFonts.notoSans(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 14,
     fontWeight: FontWeight.w500,
     fontStyle: FontStyle.normal,
@@ -221,9 +193,7 @@ TextStyle button14 = GoogleFonts.notoSans(
 
 TextStyle overline10 = GoogleFonts.notoSans(
   textStyle: const TextStyle(
-    inherit: true,
     color: Pallete.textColor,
-
     fontSize: 10,
     fontWeight: FontWeight.w400,
     fontStyle: FontStyle.normal,

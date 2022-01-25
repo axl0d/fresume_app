@@ -15,13 +15,13 @@ class SkillsInfo extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final _pdfProvider = ref.watch(pdfProvider);
 
-    List<Skill> skillsList = _pdfProvider.skills!;
+    final skillsList = _pdfProvider.skills!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -49,7 +49,9 @@ class SkillsInfo extends ConsumerWidget {
                   child: SkillFullWidget(
                     skill: skillsList[index],
                     onPressed: () {
-                      ref.read(pdfProvider.notifier).removeSkill(skillsList[index]);
+                      ref
+                          .read(pdfProvider.notifier)
+                          .removeSkill(skillsList[index]);
                     },
                   ),
                 );
@@ -60,11 +62,12 @@ class SkillsInfo extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: SimpleElevatedButton(
-                buttonWidth: double.infinity,
-                onPressed: () {
-                  ref.read(pdfProvider.notifier).addSkill(Skill.createEmpty());
-                },
-                text: 'Add another skill'),
+              buttonWidth: double.infinity,
+              onPressed: () {
+                ref.read(pdfProvider.notifier).addSkill(Skill.createEmpty());
+              },
+              text: 'Add another skill',
+            ),
           )
         ],
       ),
@@ -83,10 +86,10 @@ class SkillFullWidget extends ConsumerStatefulWidget {
   final Skill skill;
 
   @override
-  _SectionFullWidgetState createState() => _SectionFullWidgetState();
+  SectionFullWidgetState createState() => SectionFullWidgetState();
 }
 
-class _SectionFullWidgetState extends ConsumerState<SkillFullWidget> {
+class SectionFullWidgetState extends ConsumerState<SkillFullWidget> {
   TextEditingController skillNameController = TextEditingController();
 
   @override
@@ -94,28 +97,31 @@ class _SectionFullWidgetState extends ConsumerState<SkillFullWidget> {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
         if (checkChangeText(skillNameController.text, widget.skill.skillName)) {
-          skillNameController.text = widget.skill.skillName ?? "";
+          skillNameController.text = widget.skill.skillName ?? '';
         }
       });
     });
 
     return BorderedExpansionTile(
-      title: widget.skill.skillName ?? "Test",
+      title: widget.skill.skillName ?? 'Test',
       children: [
         RectBorderFormField(
           textEditingController: skillNameController,
           labelText: 'Skill Name',
           onTextChanged: (val) {
-            ref.read(pdfProvider.notifier).editSkill(widget.skill.copyWith(skillName: val));
+            ref
+                .read(pdfProvider.notifier)
+                .editSkill(widget.skill.copyWith(skillName: val));
           },
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: SimpleOutlinedButton(
-              color: Pallete.errorColor,
-              buttonWidth: double.infinity,
-              onPressed: () => widget.onPressed(),
-              text: 'Remove this skill'),
+            color: Pallete.errorColor,
+            buttonWidth: double.infinity,
+            onPressed: () => widget.onPressed(),
+            text: 'Remove this skill',
+          ),
         )
       ],
     );

@@ -3,7 +3,6 @@ import 'package:fresume_app/global/theme/pallete.dart';
 import 'package:fresume_app/global/theme/theme.dart';
 import 'package:get/get.dart';
 
-
 class UnknownRoute extends StatelessWidget {
   const UnknownRoute({Key? key}) : super(key: key);
 
@@ -14,10 +13,9 @@ class UnknownRoute extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16),
               child: Icon(
                 Icons.error,
                 color: Pallete.errorColor,
@@ -33,16 +31,18 @@ class UnknownRoute extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16),
               child: SizedBox(
                 width: 250,
                 child: GestureDetector(
                   onTap: () {
-                    Get.offNamed('/home');
+                    Get.offNamed<void>('/home');
                   },
                   child: Text(
                     '>> Back to home',
-                    style: bodyText16.copyWith(decoration: TextDecoration.underline),
+                    style: bodyText16.copyWith(
+                      decoration: TextDecoration.underline,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),

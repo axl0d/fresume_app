@@ -1,18 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fresume_app/global/models/pdf_model.dart';
 
-const USER_COLLECTION = 'user';
-const RESUME_COLLECTION = 'resume';
+const userCollection = 'user';
+const resumeCollection = 'resume';
 
 class PdfModelApi {
+  const PdfModelApi(this.uid, this.firestore);
+
   final String uid;
   final FirebaseFirestore firestore;
 
-  PdfModelApi(this.uid, this.firestore);
-
   Future<bool> updatePdfModel(String id, PdfModel data) async {
     try {
-      await firestore.collection(USER_COLLECTION).doc(uid).collection(RESUME_COLLECTION).doc(id).update(data.toJson());
+      await firestore
+          .collection(userCollection)
+          .doc(uid)
+          .collection(resumeCollection)
+          .doc(id)
+          .update(data.toJson());
       return true;
     } catch (e) {
       rethrow;
@@ -21,7 +26,12 @@ class PdfModelApi {
 
   Future<bool> deletePdfModel(String id) async {
     try {
-      await firestore.collection(USER_COLLECTION).doc(uid).collection(RESUME_COLLECTION).doc(id).delete();
+      await firestore
+          .collection(userCollection)
+          .doc(uid)
+          .collection(resumeCollection)
+          .doc(id)
+          .delete();
 
       return true;
     } catch (e) {
@@ -31,7 +41,12 @@ class PdfModelApi {
 
   Future<PdfModel> getSinglePdf(String id) async {
     try {
-      final snapshot = await firestore.collection(USER_COLLECTION).doc(uid).collection(RESUME_COLLECTION).doc(id).get();
+      final snapshot = await firestore
+          .collection(userCollection)
+          .doc(uid)
+          .collection(resumeCollection)
+          .doc(id)
+          .get();
 
       return PdfModel.fromJson(snapshot.data()!);
     } catch (e) {
@@ -42,9 +57,9 @@ class PdfModelApi {
   Future<bool> setPdfModel(String id, PdfModel data) async {
     try {
       await firestore
-          .collection(USER_COLLECTION)
+          .collection(userCollection)
           .doc(uid)
-          .collection(RESUME_COLLECTION)
+          .collection(resumeCollection)
           .doc(id)
           .set(data.toJson(), SetOptions(merge: true));
       return true;
@@ -55,7 +70,11 @@ class PdfModelApi {
 
   Future<List<PdfModel>> retrievePdfModel() async {
     try {
-      final snapshot = await firestore.collection(USER_COLLECTION).doc(uid).collection(RESUME_COLLECTION).get();
+      final snapshot = await firestore
+          .collection(userCollection)
+          .doc(uid)
+          .collection(resumeCollection)
+          .get();
 
       return snapshot.docs.map((data) {
         return PdfModel.fromJson(data.data());
@@ -67,10 +86,15 @@ class PdfModelApi {
 
   Stream<List<PdfModel>> retrievePdfModelTwo() {
     try {
-      final query = firestore.collection(USER_COLLECTION).doc(uid).collection(RESUME_COLLECTION);
+      final query = firestore
+          .collection(userCollection)
+          .doc(uid)
+          .collection(resumeCollection);
 
       return query.snapshots().map((snapshot) {
-        return snapshot.docs.map((doc) => PdfModel.fromJson(doc.data())).toList();
+        return snapshot.docs
+            .map((doc) => PdfModel.fromJson(doc.data()))
+            .toList();
       });
     } catch (e) {
       rethrow;

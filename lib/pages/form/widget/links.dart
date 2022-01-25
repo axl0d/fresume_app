@@ -15,13 +15,13 @@ class LinksInfo extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final _pdfProvider = ref.watch(pdfProvider);
 
-    List<Links> linksList = _pdfProvider.links!;
+    final linksList = _pdfProvider.links!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -49,7 +49,9 @@ class LinksInfo extends ConsumerWidget {
                   child: LinksFullWidget(
                     link: linksList[index],
                     onPressed: () {
-                      ref.read(pdfProvider.notifier).removeLink(linksList[index]);
+                      ref
+                          .read(pdfProvider.notifier)
+                          .removeLink(linksList[index]);
                     },
                   ),
                 );
@@ -60,11 +62,12 @@ class LinksInfo extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: SimpleElevatedButton(
-                buttonWidth: double.infinity,
-                onPressed: () {
-                  ref.read(pdfProvider.notifier).addLink(Links.createEmpty());
-                },
-                text: 'Add another link'),
+              buttonWidth: double.infinity,
+              onPressed: () {
+                ref.read(pdfProvider.notifier).addLink(Links.createEmpty());
+              },
+              text: 'Add another link',
+            ),
           )
         ],
       ),
@@ -83,10 +86,10 @@ class LinksFullWidget extends ConsumerStatefulWidget {
   final Links link;
 
   @override
-  _SectionFullWidgetState createState() => _SectionFullWidgetState();
+  SectionFullWidgetState createState() => SectionFullWidgetState();
 }
 
-class _SectionFullWidgetState extends ConsumerState<LinksFullWidget> {
+class SectionFullWidgetState extends ConsumerState<LinksFullWidget> {
   TextEditingController linkNameController = TextEditingController();
 
   TextEditingController linkUrlController = TextEditingController();
@@ -96,18 +99,17 @@ class _SectionFullWidgetState extends ConsumerState<LinksFullWidget> {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
         if (checkChangeText(linkNameController.text, widget.link.linkName)) {
-          linkNameController.text = widget.link.linkName ?? "";
+          linkNameController.text = widget.link.linkName ?? '';
         }
         if (checkChangeText(linkUrlController.text, widget.link.linkUrl)) {
-          linkUrlController.text = widget.link.linkUrl ?? "";
+          linkUrlController.text = widget.link.linkUrl ?? '';
         }
       });
     });
 
     return BorderedExpansionTile(
-      title: widget.link.linkName ?? "Test",
+      title: widget.link.linkName ?? 'Test',
       children: [
-
         Row(
           children: [
             Flexible(
@@ -115,7 +117,9 @@ class _SectionFullWidgetState extends ConsumerState<LinksFullWidget> {
                 textEditingController: linkNameController,
                 labelText: 'Link Name',
                 onTextChanged: (val) {
-                  ref.read(pdfProvider.notifier).editLink(widget.link.copyWith(linkName: val));
+                  ref
+                      .read(pdfProvider.notifier)
+                      .editLink(widget.link.copyWith(linkName: val));
                 },
               ),
             ),
@@ -124,7 +128,9 @@ class _SectionFullWidgetState extends ConsumerState<LinksFullWidget> {
                 textEditingController: linkUrlController,
                 labelText: 'Link URL',
                 onTextChanged: (val) {
-                  ref.read(pdfProvider.notifier).editLink(widget.link.copyWith(linkUrl: val));
+                  ref
+                      .read(pdfProvider.notifier)
+                      .editLink(widget.link.copyWith(linkUrl: val));
                 },
               ),
             ),
@@ -133,10 +139,11 @@ class _SectionFullWidgetState extends ConsumerState<LinksFullWidget> {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: SimpleOutlinedButton(
-              color: Pallete.errorColor,
-              buttonWidth: double.infinity,
-              onPressed: () => widget.onPressed(),
-              text: 'Remove this link'),
+            color: Pallete.errorColor,
+            buttonWidth: double.infinity,
+            onPressed: () => widget.onPressed(),
+            text: 'Remove this link',
+          ),
         )
       ],
     );

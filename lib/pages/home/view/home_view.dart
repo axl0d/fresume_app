@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutterfire_ui/auth.dart';
@@ -17,52 +16,55 @@ class HomeAuthView extends ConsumerWidget {
   const HomeAuthView({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ref) {
-    return Scaffold(body: Center(child: LayoutBuilder(
-      builder: (context, size) {
-        if (size.maxWidth > 750) {
-          return Padding(
-            padding: const EdgeInsets.all(24.0),
-            child: SizedBox(
-              width: 850,
-              height: 600,
-              child: Card(
-                color: Pallete.primaryLightColor,
-                elevation: 8,
-                shape: Shape.roundedRectangleBorderAll(20),
-                shadowColor: Colors.black.withOpacity(0.4),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    const LogoAndTitleRow(),
-                    Expanded(
-                      child: Row(
-                        children: const [
-                          LoginButton(false),
-                          ExampleImage(),
-                        ],
-                      ),
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+      body: Center(
+        child: LayoutBuilder(
+          builder: (context, size) {
+            if (size.maxWidth > 750) {
+              return Padding(
+                padding: const EdgeInsets.all(24),
+                child: SizedBox(
+                  width: 850,
+                  height: 600,
+                  child: Card(
+                    color: Pallete.primaryLightColor,
+                    elevation: 8,
+                    shape: Shape.roundedRectangleBorderAll(20),
+                    shadowColor: Colors.black.withOpacity(0.4),
+                    child: Column(
+                      children: [
+                        const LogoAndTitleRow(),
+                        Expanded(
+                          child: Row(
+                            children: const [
+                              LoginButton(false),
+                              ExampleImage(),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
-          );
-        }
+              );
+            }
 
-        return Container(
-          color: Pallete.primaryLightColor,
-          child: Column(
-            children: const [
-              LogoAndTitleColumn(),
-              ExampleImage(),
-              SizedBox(height: 16),
-              LoginButton(true),
-            ],
-          ),
-        );
-      },
-    )));
+            return Container(
+              color: Pallete.primaryLightColor,
+              child: Column(
+                children: const [
+                  LogoAndTitleColumn(),
+                  ExampleImage(),
+                  SizedBox(height: 16),
+                  LoginButton(true),
+                ],
+              ),
+            );
+          },
+        ),
+      ),
+    );
   }
 }
 
@@ -88,14 +90,15 @@ class ExampleImage extends StatelessWidget {
 }
 
 class LoginButton extends ConsumerWidget {
-  final bool useMobileLayout;
   const LoginButton(
     this.useMobileLayout, {
     Key? key,
   }) : super(key: key);
 
+  final bool useMobileLayout;
+
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Flexible(
       child: Container(
         decoration: BoxDecoration(
@@ -110,52 +113,66 @@ class LoginButton extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               AuthFlowBuilder<OAuthController>(
-                flow: gConfig.createFlow(ref.watch(authApiProvider).firebaseAuth, AuthAction.signIn),
+                flow: gConfig.createFlow(
+                  ref.watch(authApiProvider).firebaseAuth,
+                  AuthAction.signIn,
+                ),
                 auth: ref.watch(authApiProvider).firebaseAuth,
                 config: const GoogleProviderConfiguration(clientId: clientId),
                 listener: (oldState, newState, controller) async {
                   if (newState is SignedIn) {
-                    User? currentUser = ref.watch(authApiProvider).firebaseAuth.currentUser;
+                    final currentUser =
+                        ref.watch(authApiProvider).firebaseAuth.currentUser;
 
                     await ref
                         .watch(firebaseFirestoreProvider)
                         .collection('user')
                         .doc(currentUser!.uid)
-                        .set({'uid': currentUser.uid, 'lastLoggedIn': DateTime.now()});
+                        .set(<String, dynamic>{
+                      'uid': currentUser.uid,
+                      'lastLoggedIn': DateTime.now(),
+                    });
                   }
                 },
                 builder: (context, state, controller, _) {
                   return SimpleElevatedButton(
-                      color: Pallete.backgroundColor,
-                      textColor: Pallete.primaryColor,
-                      buttonHeight: 50,
-                      buttonWidth: double.infinity,
-                      roundedRadius: 5,
-                      onPressed: () {
-                        controller.signInWithProvider(TargetPlatform.android);
-                      },
-                      text: 'Sign in with Google');
+                    color: Pallete.backgroundColor,
+                    textColor: Pallete.primaryColor,
+                    buttonHeight: 50,
+                    buttonWidth: double.infinity,
+                    roundedRadius: 5,
+                    onPressed: () {
+                      controller.signInWithProvider(TargetPlatform.android);
+                    },
+                    text: 'Sign in with Google',
+                  );
                 },
               ),
               Padding(
-                padding: const EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16),
                 child: Text(
                   'OR',
-                  style: subtitle14.copyWith(color: Pallete.primaryLightColor, fontWeight: FontWeight.w400),
+                  style: subtitle14.copyWith(
+                    color: Pallete.primaryLightColor,
+                    fontWeight: FontWeight.w400,
+                  ),
                 ),
               ),
               SimpleElevatedButton(
-                  color: Pallete.backgroundColor,
-                  textColor: Pallete.primaryColor,
-                  buttonHeight: 50,
-                  buttonWidth: double.infinity,
-                  roundedRadius: 5,
-                  onPressed: () {
-                    ref.watch(pdfProvider.notifier).editPdf(PdfModel.createEmpty().copyWith(pdfId: 'noSave'),);
+                color: Pallete.backgroundColor,
+                textColor: Pallete.primaryColor,
+                buttonHeight: 50,
+                buttonWidth: double.infinity,
+                roundedRadius: 5,
+                onPressed: () {
+                  ref.watch(pdfProvider.notifier).editPdf(
+                        PdfModel.createEmpty().copyWith(pdfId: 'noSave'),
+                      );
 
-                    Get.toNamed('/resume');
-                  },
-                  text: 'Continue without signing in'),
+                  Get.toNamed<void>('/resume');
+                },
+                text: 'Continue without signing in',
+              ),
               const SizedBox(
                 height: 16,
               ),
@@ -195,12 +212,14 @@ class LogoAndTitleRow extends StatelessWidget {
             ),
           ),
           Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'CREATE A FREE RESUME NOW!',
-                style: headline34.copyWith(color: Pallete.primaryColor, fontWeight: FontWeight.bold),
+                style: headline34.copyWith(
+                  color: Pallete.primaryColor,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               Row(
                 children: [
@@ -210,11 +229,16 @@ class LogoAndTitleRow extends StatelessWidget {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      await launch('https://www.linkedin.com/in/varun-bhalerao-677a48179/');
+                      await launch(
+                        'https://www.linkedin.com/in/varun-bhalerao-677a48179/',
+                      );
                     },
                     child: Text(
                       'Varun Bhalerao',
-                      style: subtitle16.copyWith(decoration: TextDecoration.underline, color: Pallete.primaryColor),
+                      style: subtitle16.copyWith(
+                        decoration: TextDecoration.underline,
+                        color: Pallete.primaryColor,
+                      ),
                     ),
                   ),
                 ],
@@ -251,7 +275,10 @@ class LogoAndTitleColumn extends StatelessWidget {
           ),
           Text(
             'CREATE A FREE RESUME NOW!',
-            style: headline20.copyWith(color: Pallete.primaryColor, fontWeight: FontWeight.bold),
+            style: headline20.copyWith(
+              color: Pallete.primaryColor,
+              fontWeight: FontWeight.bold,
+            ),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -262,11 +289,16 @@ class LogoAndTitleColumn extends StatelessWidget {
               ),
               GestureDetector(
                 onTap: () async {
-                  await launch('https://www.linkedin.com/in/varun-bhalerao-677a48179/');
+                  await launch(
+                    'https://www.linkedin.com/in/varun-bhalerao-677a48179/',
+                  );
                 },
                 child: Text(
                   'Varun Bhalerao',
-                  style: subtitle16.copyWith(decoration: TextDecoration.underline, color: Pallete.primaryColor),
+                  style: subtitle16.copyWith(
+                    decoration: TextDecoration.underline,
+                    color: Pallete.primaryColor,
+                  ),
                 ),
               ),
             ],

@@ -4,17 +4,21 @@ import 'package:fresume_app/apis/resume.dart';
 import 'package:fresume_app/global/models/pdf_model.dart';
 
 final resumeApi = Provider<PdfModelApi?>((ref) {
-  return ref.watch(authStateChangeProvider).when(data: (data) {
-    if (data != null) {
-      return PdfModelApi(data.uid, ref.read(firebaseFirestoreProvider));
-    }
+  return ref.watch(authStateChangeProvider).when(
+    data: (data) {
+      if (data != null) {
+        return PdfModelApi(data.uid, ref.read(firebaseFirestoreProvider));
+      }
 
-    return null;
-  }, loading: () {
-    return null;
-  }, error: (e, s) {
-    throw (e);
-  });
+      return null;
+    },
+    loading: () {
+      return null;
+    },
+    error: (e, s) {
+      throw UnimplementedError();
+    },
+  );
 });
 
 final tempPdfProvider = StateProvider<PdfModel>((ref) {
@@ -41,25 +45,21 @@ class PdfStateNotifier extends StateNotifier<PdfModel> {
   }
 
   void addEmploymentSection(Section section) {
-    List<Section> sections = state.employment!;
+    final sections = state.employment!;
 
-    sections.add(section);
-
-    state = state.copyWith(employment: sections);
+    state = state.copyWith(employment: sections..add(section));
   }
 
   void removeEmploymentSection(Section section) {
-    List<Section> sections = state.employment!;
+    final sections = state.employment!;
 
-    sections.remove(section);
-
-    state = state.copyWith(employment: sections);
+    state = state.copyWith(employment: sections..remove(section));
   }
 
   void editEmploymentSection(Section section) {
-    List<Section> sections = state.employment!;
+    final sections = state.employment!;
 
-    for (int i = 0; i < sections.length; i++) {
+    for (var i = 0; i < sections.length; i++) {
       if (sections[i].sectionId == section.sectionId) {
         sections[i] = section;
         break;
@@ -70,25 +70,21 @@ class PdfStateNotifier extends StateNotifier<PdfModel> {
   }
 
   void addEducationSection(Section section) {
-    List<Section> sections = state.education!;
+    final sections = state.education!;
 
-    sections.add(section);
-
-    state = state.copyWith(education: sections);
+    state = state.copyWith(education: sections..add(section));
   }
 
   void removeEducationSection(Section section) {
-    List<Section> sections = state.education!;
+    final sections = state.education!;
 
-    sections.remove(section);
-
-    state = state.copyWith(education: sections);
+    state = state.copyWith(education: sections..remove(section));
   }
 
   void editEducationSection(Section section) {
-    List<Section> sections = state.education!;
+    final sections = state.education!;
 
-    for (int i = 0; i < sections.length; i++) {
+    for (var i = 0; i < sections.length; i++) {
       if (sections[i].sectionId == section.sectionId) {
         sections[i] = section;
         break;
@@ -98,25 +94,21 @@ class PdfStateNotifier extends StateNotifier<PdfModel> {
   }
 
   void addActivitySection(Section section) {
-    List<Section> sections = state.activities!;
+    final sections = state.activities!;
 
-    sections.add(section);
-
-    state = state.copyWith(activities: sections);
+    state = state.copyWith(activities: sections..add(section));
   }
 
   void removeActivitySection(Section section) {
-    List<Section> sections = state.activities!;
+    final sections = state.activities!;
 
-    sections.remove(section);
-
-    state = state.copyWith(activities: sections);
+    state = state.copyWith(activities: sections..remove(section));
   }
 
   void editActivitySection(Section section) {
-    List<Section> sections = state.activities!;
+    final sections = state.activities!;
 
-    for (int i = 0; i < sections.length; i++) {
+    for (var i = 0; i < sections.length; i++) {
       if (sections[i].sectionId == section.sectionId) {
         sections[i] = section;
         break;
@@ -126,25 +118,21 @@ class PdfStateNotifier extends StateNotifier<PdfModel> {
   }
 
   void addSkill(Skill skill) {
-    List<Skill> skills = state.skills!;
+    final skills = state.skills!;
 
-    skills.add(skill);
-
-    state = state.copyWith(skills: skills);
+    state = state.copyWith(skills: skills..add(skill));
   }
 
   void removeSkill(Skill skill) {
-    List<Skill> skills = state.skills!;
+    final skills = state.skills!;
 
-    skills.remove(skill);
-
-    state = state.copyWith(skills: skills);
+    state = state.copyWith(skills: skills..remove(skill));
   }
 
   void editSkill(Skill skill) {
-    List<Skill> skills = state.skills!;
+    final skills = state.skills!;
 
-    for (int i = 0; i < skills.length; i++) {
+    for (var i = 0; i < skills.length; i++) {
       if (skills[i].skillId == skill.skillId) {
         skills[i] = skill;
         break;
@@ -155,25 +143,21 @@ class PdfStateNotifier extends StateNotifier<PdfModel> {
   }
 
   void addLanguage(Skill skill) {
-    List<Skill> languages = state.languages!;
+    final languages = state.languages!;
 
-    languages.add(skill);
-
-    state = state.copyWith(languages: languages);
+    state = state.copyWith(languages: languages..add(skill));
   }
 
   void removeLanguage(Skill skill) {
-    List<Skill> languages = state.languages!;
+    final languages = state.languages!;
 
-    languages.remove(skill);
-
-    state = state.copyWith(languages: languages);
+    state = state.copyWith(languages: languages..remove(skill));
   }
 
   void editLanguage(Skill skill) {
-    List<Skill> languages = state.languages!;
+    final languages = state.languages!;
 
-    for (int i = 0; i < languages.length; i++) {
+    for (var i = 0; i < languages.length; i++) {
       if (languages[i].skillId == skill.skillId) {
         languages[i] = skill;
         break;
@@ -184,25 +168,21 @@ class PdfStateNotifier extends StateNotifier<PdfModel> {
   }
 
   void addLink(Links link) {
-    List<Links> links = state.links!;
+    final links = state.links!;
 
-    links.add(link);
-
-    state = state.copyWith(links: links);
+    state = state.copyWith(links: links..add(link));
   }
 
   void removeLink(Links link) {
-    List<Links> links = state.links!;
+    final links = state.links!;
 
-    links.remove(link);
-
-    state = state.copyWith(links: links);
+    state = state.copyWith(links: links..remove(link));
   }
 
   void editLink(Links link) {
-    List<Links> links = state.links!;
+    final links = state.links!;
 
-    for (int i = 0; i < links.length; i++) {
+    for (var i = 0; i < links.length; i++) {
       if (links[i].linksId == link.linksId) {
         links[i] = link;
         break;

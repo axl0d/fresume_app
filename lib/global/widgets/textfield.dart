@@ -4,6 +4,23 @@ import 'package:fresume_app/global/theme/pallete.dart';
 import 'package:fresume_app/global/theme/theme.dart';
 
 class RectBorderFormField extends StatelessWidget {
+  const RectBorderFormField({
+    Key? key,
+    this.obscureText,
+    this.prefixIcon,
+    this.textInputType,
+    this.maxLength,
+    this.inputFormatters,
+    this.maxLines,
+    this.suffix,
+    this.validator,
+    required this.textEditingController,
+    this.initialValue,
+    this.hintText,
+    this.onTextChanged,
+    this.labelText,
+  }) : super(key: key);
+
   final bool? obscureText;
   final IconData? prefixIcon;
   final TextInputType? textInputType;
@@ -17,23 +34,6 @@ class RectBorderFormField extends StatelessWidget {
   final String? initialValue;
   final String? hintText;
   final Function(String)? onTextChanged;
-
-  const RectBorderFormField(
-      {Key? key,
-      this.obscureText,
-      this.prefixIcon,
-      this.textInputType,
-      this.maxLength,
-      this.inputFormatters,
-      this.maxLines,
-      this.suffix,
-      this.validator,
-      required this.textEditingController,
-      this.initialValue,
-      this.hintText,
-      this.onTextChanged,
-      this.labelText})
-      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +51,6 @@ class RectBorderFormField extends StatelessWidget {
               ),
             ),
           TextFormField(
-            // style: const TextStyle(backgroundColor: Pallete.primaryLightColor),
             obscureText: obscureText ?? false,
             controller: textEditingController,
             maxLines: maxLines ?? 1,
@@ -59,14 +58,15 @@ class RectBorderFormField extends StatelessWidget {
             inputFormatters: inputFormatters ?? [],
             autovalidateMode: AutovalidateMode.onUserInteraction,
             keyboardType: textInputType ?? TextInputType.text,
-            onChanged: (value) {
-              if (onTextChanged != null) onTextChanged!(value);
-            },
+            onChanged: onTextChanged,
             maxLength: maxLength,
             decoration: InputDecoration(
               suffix: suffix,
               contentPadding: const EdgeInsets.all(14),
-              labelStyle: const TextStyle(color: Pallete.primaryColor, backgroundColor: Colors.transparent),
+              labelStyle: const TextStyle(
+                color: Pallete.primaryColor,
+                backgroundColor: Colors.transparent,
+              ),
               isDense: true,
               prefixIcon: prefixIcon != null
                   ? Icon(
@@ -79,40 +79,53 @@ class RectBorderFormField extends StatelessWidget {
                 minHeight: 50,
                 minWidth: 50,
               ),
-              counterText: "",
+              counterText: '',
               hintText: hintText,
-              hintStyle:
-                  const TextStyle(color: Pallete.primaryMidColor, backgroundColor: Colors.transparent, fontSize: 14),
+              hintStyle: const TextStyle(
+                color: Pallete.primaryMidColor,
+                backgroundColor: Colors.transparent,
+                fontSize: 14,
+              ),
               filled: true,
               fillColor: Pallete.primaryLightColor,
               focusedErrorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red.shade900, width: 1.5),
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(2),
-                      bottomRight: Radius.circular(2),
-                      bottomLeft: Radius.circular(2),
-                      topRight: Radius.circular(2))),
+                borderSide: BorderSide(color: Colors.red.shade900, width: 1.5),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(2),
+                  bottomRight: Radius.circular(2),
+                  bottomLeft: Radius.circular(2),
+                  topRight: Radius.circular(2),
+                ),
+              ),
               errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.red.shade900, width: 1),
-                  borderRadius: const BorderRadius.only(
-                      topLeft: Radius.circular(2),
-                      bottomRight: Radius.circular(2),
-                      bottomLeft: Radius.circular(2),
-                      topRight: Radius.circular(2))),
+                borderSide: BorderSide(
+                  color: Colors.red.shade900,
+                ),
+                borderRadius: const BorderRadius.only(
+                  topLeft: Radius.circular(2),
+                  bottomRight: Radius.circular(2),
+                  bottomLeft: Radius.circular(2),
+                  topRight: Radius.circular(2),
+                ),
+              ),
               enabledBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent, width: 0),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(2),
-                      bottomRight: Radius.circular(2),
-                      bottomLeft: Radius.circular(2),
-                      topRight: Radius.circular(2))),
+                borderSide: BorderSide(color: Colors.transparent, width: 0),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(2),
+                  bottomRight: Radius.circular(2),
+                  bottomLeft: Radius.circular(2),
+                  topRight: Radius.circular(2),
+                ),
+              ),
               focusedBorder: const OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent, width: 0),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(2),
-                      bottomRight: Radius.circular(2),
-                      bottomLeft: Radius.circular(2),
-                      topRight: Radius.circular(2))),
+                borderSide: BorderSide(color: Colors.transparent, width: 0),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(2),
+                  bottomRight: Radius.circular(2),
+                  bottomLeft: Radius.circular(2),
+                  topRight: Radius.circular(2),
+                ),
+              ),
             ),
           ),
         ],
@@ -122,11 +135,18 @@ class RectBorderFormField extends StatelessWidget {
 }
 
 class TextFieldStyle {
-  static primaryColorStyle({Widget? suffix, IconData? prefixIcon, required String hintText}) {
+  static InputDecoration primaryColorStyle({
+    Widget? suffix,
+    IconData? prefixIcon,
+    required String hintText,
+  }) {
     return InputDecoration(
       suffix: suffix,
       contentPadding: const EdgeInsets.all(14),
-      labelStyle: const TextStyle(color: Pallete.primaryColor, backgroundColor: Colors.transparent),
+      labelStyle: const TextStyle(
+        color: Pallete.primaryColor,
+        backgroundColor: Colors.transparent,
+      ),
       isDense: true,
       prefixIcon: prefixIcon != null
           ? Icon(
@@ -139,41 +159,54 @@ class TextFieldStyle {
         minHeight: 50,
         minWidth: 50,
       ),
-      counterText: "",
+      counterText: '',
       hintText: hintText,
-      hintStyle:
-          const TextStyle(color: Pallete.primaryMidColor, backgroundColor: Pallete.primaryLightColor, fontSize: 14),
+      hintStyle: const TextStyle(
+        color: Pallete.primaryMidColor,
+        backgroundColor: Pallete.primaryLightColor,
+        fontSize: 14,
+      ),
       filled: true,
       fillColor: Pallete.primaryLightColor,
       hoverColor: Pallete.primaryLightColor,
       focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red.shade900, width: 1.5),
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(2),
-              bottomRight: Radius.circular(2),
-              bottomLeft: Radius.circular(2),
-              topRight: Radius.circular(2))),
+        borderSide: BorderSide(color: Colors.red.shade900, width: 1.5),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(2),
+          bottomRight: Radius.circular(2),
+          bottomLeft: Radius.circular(2),
+          topRight: Radius.circular(2),
+        ),
+      ),
       errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.red.shade900, width: 1),
-          borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(2),
-              bottomRight: Radius.circular(2),
-              bottomLeft: Radius.circular(2),
-              topRight: Radius.circular(2))),
+        borderSide: BorderSide(
+          color: Colors.red.shade900,
+        ),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(2),
+          bottomRight: Radius.circular(2),
+          bottomLeft: Radius.circular(2),
+          topRight: Radius.circular(2),
+        ),
+      ),
       enabledBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.transparent, width: 0),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(2),
-              bottomRight: Radius.circular(2),
-              bottomLeft: Radius.circular(2),
-              topRight: Radius.circular(2))),
+        borderSide: BorderSide(color: Colors.transparent, width: 0),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(2),
+          bottomRight: Radius.circular(2),
+          bottomLeft: Radius.circular(2),
+          topRight: Radius.circular(2),
+        ),
+      ),
       focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.transparent, width: 0),
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(2),
-              bottomRight: Radius.circular(2),
-              bottomLeft: Radius.circular(2),
-              topRight: Radius.circular(2))),
+        borderSide: BorderSide(color: Colors.transparent, width: 0),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(2),
+          bottomRight: Radius.circular(2),
+          bottomLeft: Radius.circular(2),
+          topRight: Radius.circular(2),
+        ),
+      ),
     );
   }
 }

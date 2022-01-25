@@ -13,10 +13,9 @@ class NoLoginRoute extends StatelessWidget {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Padding(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(16),
               child: Icon(
                 Icons.error,
                 color: Pallete.errorColor,
@@ -32,16 +31,18 @@ class NoLoginRoute extends StatelessWidget {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16),
               child: SizedBox(
                 width: 250,
                 child: GestureDetector(
                   onTap: () {
-                    Get.offNamed('/');
+                    Get.offNamed<void>('/');
                   },
                   child: Text(
                     '>> Go to login',
-                    style: bodyText16.copyWith(decoration: TextDecoration.underline),
+                    style: bodyText16.copyWith(
+                      decoration: TextDecoration.underline,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                 ),

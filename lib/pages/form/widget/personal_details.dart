@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresume_app/global/functions/return_correct_string.dart';
-import 'package:fresume_app/global/models/pdf_model.dart';
 import 'package:fresume_app/global/theme/theme.dart';
 import 'package:fresume_app/global/widgets/textfield.dart';
 import 'package:fresume_app/pages/form/controller/form_controller.dart';
@@ -12,10 +11,10 @@ class PersonalDetails extends ConsumerStatefulWidget {
   }) : super(key: key);
 
   @override
-  _PersonalDetailsState createState() => _PersonalDetailsState();
+  PersonalDetailsState createState() => PersonalDetailsState();
 }
 
-class _PersonalDetailsState extends ConsumerState<PersonalDetails> {
+class PersonalDetailsState extends ConsumerState<PersonalDetails> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
@@ -26,30 +25,30 @@ class _PersonalDetailsState extends ConsumerState<PersonalDetails> {
   Widget build(BuildContext context) {
     final _pdfProvider = ref.watch(pdfProvider);
 
-    Personal personal = _pdfProvider.resumePersonal!;
+    final personal = _pdfProvider.resumePersonal!;
 
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
         if (checkChangeText(emailController.text, personal.email)) {
-          emailController.text = personal.email ?? "";
+          emailController.text = personal.email ?? '';
         }
         if (checkChangeText(phoneController.text, personal.phoneNumber)) {
-          phoneController.text = personal.phoneNumber ?? "";
+          phoneController.text = personal.phoneNumber ?? '';
         }
         if (checkChangeText(firstNameController.text, personal.firstName)) {
-          firstNameController.text = personal.firstName ?? "";
+          firstNameController.text = personal.firstName ?? '';
         }
         if (checkChangeText(lastNameController.text, personal.lastName)) {
-          lastNameController.text = personal.lastName ?? "";
+          lastNameController.text = personal.lastName ?? '';
         }
         if (checkChangeText(jobRoleController.text, personal.jobTitle)) {
-          jobRoleController.text = personal.jobTitle ?? "";
+          jobRoleController.text = personal.jobTitle ?? '';
         }
       });
     });
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -65,7 +64,9 @@ class _PersonalDetailsState extends ConsumerState<PersonalDetails> {
             initialValue: _pdfProvider.resumePersonal!.email,
             labelText: 'Email Address',
             onTextChanged: (val) {
-              ref.read(pdfProvider.notifier).editPersonal(personal.copyWith(email: val));
+              ref
+                  .read(pdfProvider.notifier)
+                  .editPersonal(personal.copyWith(email: val));
             },
           ),
           Row(
@@ -76,7 +77,9 @@ class _PersonalDetailsState extends ConsumerState<PersonalDetails> {
                   initialValue: returnCorrectStringString(personal.firstName),
                   labelText: 'First Name',
                   onTextChanged: (val) {
-                    ref.read(pdfProvider.notifier).editPersonal(personal.copyWith(firstName: val));
+                    ref
+                        .read(pdfProvider.notifier)
+                        .editPersonal(personal.copyWith(firstName: val));
                   },
                 ),
               ),
@@ -86,7 +89,9 @@ class _PersonalDetailsState extends ConsumerState<PersonalDetails> {
                   initialValue: returnCorrectStringString(personal.lastName),
                   labelText: 'Last Name',
                   onTextChanged: (val) {
-                    ref.read(pdfProvider.notifier).editPersonal(personal.copyWith(lastName: val));
+                    ref
+                        .read(pdfProvider.notifier)
+                        .editPersonal(personal.copyWith(lastName: val));
                   },
                 ),
               ),
@@ -101,7 +106,9 @@ class _PersonalDetailsState extends ConsumerState<PersonalDetails> {
                   labelText: 'Job Role',
                   hintText: 'eg. Software Developer',
                   onTextChanged: (val) {
-                    ref.read(pdfProvider.notifier).editPersonal(personal.copyWith(jobTitle: val));
+                    ref
+                        .read(pdfProvider.notifier)
+                        .editPersonal(personal.copyWith(jobTitle: val));
                   },
                 ),
               ),
@@ -111,7 +118,9 @@ class _PersonalDetailsState extends ConsumerState<PersonalDetails> {
                   initialValue: returnCorrectStringString(personal.email),
                   labelText: 'Phone Number',
                   onTextChanged: (val) {
-                    ref.read(pdfProvider.notifier).editPersonal(personal.copyWith(phoneNumber: val));
+                    ref
+                        .read(pdfProvider.notifier)
+                        .editPersonal(personal.copyWith(phoneNumber: val));
                   },
                 ),
               ),

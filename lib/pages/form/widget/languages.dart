@@ -15,13 +15,13 @@ class LanguagesInfo extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final _pdfProvider = ref.watch(pdfProvider);
 
-    List<Skill> languagesList = _pdfProvider.languages!;
+    final languagesList = _pdfProvider.languages!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -49,7 +49,9 @@ class LanguagesInfo extends ConsumerWidget {
                   child: LanguageFullWidget(
                     language: languagesList[index],
                     onPressed: () {
-                      ref.read(pdfProvider.notifier).removeLanguage(languagesList[index]);
+                      ref
+                          .read(pdfProvider.notifier)
+                          .removeLanguage(languagesList[index]);
                     },
                   ),
                 );
@@ -60,11 +62,12 @@ class LanguagesInfo extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: SimpleElevatedButton(
-                buttonWidth: double.infinity,
-                onPressed: () {
-                  ref.read(pdfProvider.notifier).addLanguage(Skill.createEmpty());
-                },
-                text: 'Add another language'),
+              buttonWidth: double.infinity,
+              onPressed: () {
+                ref.read(pdfProvider.notifier).addLanguage(Skill.createEmpty());
+              },
+              text: 'Add another language',
+            ),
           )
         ],
       ),
@@ -83,39 +86,45 @@ class LanguageFullWidget extends ConsumerStatefulWidget {
   final Skill language;
 
   @override
-  _SectionFullWidgetState createState() => _SectionFullWidgetState();
+  SectionFullWidgetState createState() => SectionFullWidgetState();
 }
 
-class _SectionFullWidgetState extends ConsumerState<LanguageFullWidget> {
+class SectionFullWidgetState extends ConsumerState<LanguageFullWidget> {
   TextEditingController languageNameController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
-        if (checkChangeText(languageNameController.text, widget.language.skillName)) {
-          languageNameController.text = widget.language.skillName ?? "";
+        if (checkChangeText(
+          languageNameController.text,
+          widget.language.skillName,
+        )) {
+          languageNameController.text = widget.language.skillName ?? '';
         }
       });
     });
 
     return BorderedExpansionTile(
-      title: widget.language.skillName ?? "Test",
+      title: widget.language.skillName ?? 'Test',
       children: [
         RectBorderFormField(
           textEditingController: languageNameController,
           labelText: 'Skill Name',
           onTextChanged: (val) {
-            ref.read(pdfProvider.notifier).editLanguage(widget.language.copyWith(skillName: val));
+            ref
+                .read(pdfProvider.notifier)
+                .editLanguage(widget.language.copyWith(skillName: val));
           },
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: SimpleOutlinedButton(
-              color: Pallete.errorColor,
-              buttonWidth: double.infinity,
-              onPressed: () => widget.onPressed(),
-              text: 'Remove this language'),
+            color: Pallete.errorColor,
+            buttonWidth: double.infinity,
+            onPressed: () => widget.onPressed(),
+            text: 'Remove this language',
+          ),
         )
       ],
     );

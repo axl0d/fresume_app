@@ -15,13 +15,13 @@ class Extracurriculars extends ConsumerWidget {
   }) : super(key: key);
 
   @override
-  Widget build(BuildContext context, ref) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final _pdfProvider = ref.watch(pdfProvider);
 
-    List<Section> activityList = _pdfProvider.activities!;
+    final activityList = _pdfProvider.activities!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -49,7 +49,9 @@ class Extracurriculars extends ConsumerWidget {
                   child: ActivityFullWidget(
                     section: activityList[index],
                     onPressed: () {
-                      ref.read(pdfProvider.notifier).removeActivitySection(activityList[index]);
+                      ref.read(pdfProvider.notifier).removeActivitySection(
+                            activityList[index],
+                          );
                     },
                   ),
                 );
@@ -60,11 +62,14 @@ class Extracurriculars extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
             child: SimpleElevatedButton(
-                buttonWidth: double.infinity,
-                onPressed: () {
-                  ref.read(pdfProvider.notifier).addActivitySection(Section.createEmpty());
-                },
-                text: 'Add another activity'),
+              buttonWidth: double.infinity,
+              onPressed: () {
+                ref.read(pdfProvider.notifier).addActivitySection(
+                      Section.createEmpty(),
+                    );
+              },
+              text: 'Add another activity',
+            ),
           )
         ],
       ),
@@ -83,10 +88,10 @@ class ActivityFullWidget extends ConsumerStatefulWidget {
   final Section section;
 
   @override
-  _SectionFullWidgetState createState() => _SectionFullWidgetState();
+  SectionFullWidgetState createState() => SectionFullWidgetState();
 }
 
-class _SectionFullWidgetState extends ConsumerState<ActivityFullWidget> {
+class SectionFullWidgetState extends ConsumerState<ActivityFullWidget> {
   TextEditingController jobController = TextEditingController();
   TextEditingController employerController = TextEditingController();
   TextEditingController cityController = TextEditingController();
@@ -99,28 +104,34 @@ class _SectionFullWidgetState extends ConsumerState<ActivityFullWidget> {
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
         if (checkChangeText(jobController.text, widget.section.textOne)) {
-          jobController.text = widget.section.textOne ?? "";
+          jobController.text = widget.section.textOne ?? '';
         }
         if (checkChangeText(employerController.text, widget.section.textTwo)) {
-          employerController.text = widget.section.textTwo ?? "";
+          employerController.text = widget.section.textTwo ?? '';
         }
         if (checkChangeText(cityController.text, widget.section.textThree)) {
-          cityController.text = widget.section.textThree ?? "";
+          cityController.text = widget.section.textThree ?? '';
         }
-        if (checkChangeText(startDateController.text, widget.section.startDate)) {
-          startDateController.text = widget.section.startDate ?? "";
+        if (checkChangeText(
+          startDateController.text,
+          widget.section.startDate,
+        )) {
+          startDateController.text = widget.section.startDate ?? '';
         }
         if (checkChangeText(endDateController.text, widget.section.endDate)) {
-          endDateController.text = widget.section.endDate ?? "";
+          endDateController.text = widget.section.endDate ?? '';
         }
-        if (checkChangeText(descriptionController.text, widget.section.description)) {
-          descriptionController.text = widget.section.description ?? "";
+        if (checkChangeText(
+          descriptionController.text,
+          widget.section.description,
+        )) {
+          descriptionController.text = widget.section.description ?? '';
         }
       });
     });
 
     return BorderedExpansionTile(
-      title: widget.section.textOne ?? "Test",
+      title: widget.section.textOne ?? 'Test',
       children: [
         Row(
           children: [
@@ -129,7 +140,9 @@ class _SectionFullWidgetState extends ConsumerState<ActivityFullWidget> {
                 textEditingController: jobController,
                 labelText: 'Function Title',
                 onTextChanged: (val) {
-                  ref.read(pdfProvider.notifier).editActivitySection(widget.section.copyWith(textOne: val));
+                  ref.read(pdfProvider.notifier).editActivitySection(
+                        widget.section.copyWith(textOne: val),
+                      );
                 },
               ),
             ),
@@ -138,7 +151,9 @@ class _SectionFullWidgetState extends ConsumerState<ActivityFullWidget> {
                 textEditingController: employerController,
                 labelText: 'Employer',
                 onTextChanged: (val) {
-                  ref.read(pdfProvider.notifier).editActivitySection(widget.section.copyWith(textTwo: val));
+                  ref.read(pdfProvider.notifier).editActivitySection(
+                        widget.section.copyWith(textTwo: val),
+                      );
                 },
               ),
             ),
@@ -154,7 +169,9 @@ class _SectionFullWidgetState extends ConsumerState<ActivityFullWidget> {
                       textEditingController: startDateController,
                       labelText: 'Start Date',
                       onTextChanged: (val) {
-                        ref.read(pdfProvider.notifier).editActivitySection(widget.section.copyWith(startDate: val));
+                        ref.read(pdfProvider.notifier).editActivitySection(
+                              widget.section.copyWith(startDate: val),
+                            );
                       },
                     ),
                   ),
@@ -163,7 +180,9 @@ class _SectionFullWidgetState extends ConsumerState<ActivityFullWidget> {
                       textEditingController: endDateController,
                       labelText: 'End Date',
                       onTextChanged: (val) {
-                        ref.read(pdfProvider.notifier).editActivitySection(widget.section.copyWith(endDate: val));
+                        ref.read(pdfProvider.notifier).editActivitySection(
+                              widget.section.copyWith(endDate: val),
+                            );
                       },
                     ),
                   ),
@@ -175,7 +194,9 @@ class _SectionFullWidgetState extends ConsumerState<ActivityFullWidget> {
                 textEditingController: cityController,
                 labelText: 'City',
                 onTextChanged: (val) {
-                  ref.read(pdfProvider.notifier).editActivitySection(widget.section.copyWith(textThree: val));
+                  ref.read(pdfProvider.notifier).editActivitySection(
+                        widget.section.copyWith(textThree: val),
+                      );
                 },
               ),
             ),
@@ -184,19 +205,22 @@ class _SectionFullWidgetState extends ConsumerState<ActivityFullWidget> {
         RectBorderFormField(
           maxLines: 9,
           maxLength: 500,
-          labelText: "Description",
+          labelText: 'Description',
           textEditingController: descriptionController,
           onTextChanged: (val) {
-            ref.read(pdfProvider.notifier).editActivitySection(widget.section.copyWith(description: val));
+            ref.read(pdfProvider.notifier).editActivitySection(
+                  widget.section.copyWith(description: val),
+                );
           },
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: SimpleOutlinedButton(
-              color: Pallete.errorColor,
-              buttonWidth: double.infinity,
-              onPressed: () => widget.onPressed(),
-              text: 'Remove this activity'),
+            color: Pallete.errorColor,
+            buttonWidth: double.infinity,
+            onPressed: () => widget.onPressed(),
+            text: 'Remove this activity',
+          ),
         )
       ],
     );

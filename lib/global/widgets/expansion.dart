@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:fresume_app/global/theme/pallete.dart';
 
-
 class BorderedExpansionTile extends StatelessWidget {
+  const BorderedExpansionTile({
+    Key? key,
+    required this.title,
+    this.subtitle,
+    required this.children,
+  }) : super(key: key);
+
   final String title;
   final String? subtitle;
   final List<Widget> children;
-
-  const BorderedExpansionTile({Key? key, required this.title, this.subtitle, required this.children}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,10 +21,12 @@ class BorderedExpansionTile extends StatelessWidget {
         visualDensity: VisualDensity.compact,
       ),
       child: Container(
-        decoration: BoxDecoration(border: Border.all(color: Pallete.secondaryTextColor)),
+        decoration: BoxDecoration(
+          border: Border.all(color: Pallete.secondaryTextColor),
+        ),
         child: ExpansionTile(
           expandedCrossAxisAlignment: CrossAxisAlignment.start,
-          childrenPadding: const EdgeInsets.all(0),
+          childrenPadding: EdgeInsets.zero,
           title: Text(title),
           subtitle: subtitle == null ? null : Text(subtitle!),
           children: children,

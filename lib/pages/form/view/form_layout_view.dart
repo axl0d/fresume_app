@@ -24,24 +24,27 @@ import 'package:get/get.dart';
 import 'package:printing/printing.dart';
 
 class ResumeEdit extends ConsumerStatefulWidget {
-  final String? uid;
   const ResumeEdit(this.uid, {Key? key}) : super(key: key);
+  final String? uid;
 
   @override
-  _ResumeEditState createState() => _ResumeEditState();
+  ResumeEditState createState() => ResumeEditState();
 }
 
-class _ResumeEditState extends ConsumerState<ResumeEdit> with AutomaticKeepAliveClientMixin {
+class ResumeEditState extends ConsumerState<ResumeEdit>
+    with AutomaticKeepAliveClientMixin {
   late Timer timer;
 
   Future updateResume() async {
-    PdfModel _pdfProvider = ref.read(pdfProvider);
-    PdfModel _tempPdfProvider = ref.read(tempPdfProvider);
-    PdfModelApi? _resumeApi = ref.watch(resumeApi);
+    final _pdfProvider = ref.read(pdfProvider);
+    final _tempPdfProvider = ref.read(tempPdfProvider);
+    final _resumeApi = ref.watch(resumeApi);
 
-    if (widget.uid != null && _tempPdfProvider != _pdfProvider && _resumeApi != null) {
-      DateTime dateTime = DateTime.now();
-      PdfModel pdfModel = _pdfProvider.copyWith(lastUpdated: dateTime);
+    if (widget.uid != null &&
+        _tempPdfProvider != _pdfProvider &&
+        _resumeApi != null) {
+      final dateTime = DateTime.now();
+      final pdfModel = _pdfProvider.copyWith(lastUpdated: dateTime);
 
       await _resumeApi.setPdfModel(_pdfProvider.pdfId, pdfModel);
       ref.watch(pdfProvider.notifier).editPdf(pdfModel);
@@ -57,7 +60,7 @@ class _ResumeEditState extends ConsumerState<ResumeEdit> with AutomaticKeepAlive
     super.initState();
 
     timer = Timer.periodic(const Duration(seconds: 30), (timer) async {
-      updateResume();
+      await updateResume();
     });
   }
 
@@ -66,6 +69,8 @@ class _ResumeEditState extends ConsumerState<ResumeEdit> with AutomaticKeepAlive
     timer.cancel();
     super.dispose();
   }
+
+  String timeAgo() => timeAgoSinceDate(ref.watch(pdfProvider).lastUpdated);
 
   @override
   Widget build(BuildContext context) {
@@ -76,39 +81,55 @@ class _ResumeEditState extends ConsumerState<ResumeEdit> with AutomaticKeepAlive
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: SimpleOutlinedButton(
-              onPressed: () async {
-                ref.read(pdfProvider.notifier).editPdf(pdfModelData);
-              },
-              text: 'Fill'),
+            onPressed: () async {
+              ref.read(pdfProvider.notifier).editPdf(pdfModelData);
+            },
+            text: 'Fill',
+          ),
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
           child: SimpleOutlinedButton(
-              onPressed: () async {
-                await Printing.sharePdf(
-                    bytes: await generateDocument(context, pdfModel: ref.read(pdfProvider)), filename: 'resume.pdf');
-              },
-              text: 'Download'),
+            onPressed: () async {
+              await Printing.sharePdf(
+                bytes: await generateDocument(
+                  context,
+                  pdfModel: ref.read(pdfProvider),
+                ),
+                filename: 'resume.pdf',
+              );
+            },
+            text: 'Download',
+          ),
         ),
         if (widget.uid != null)
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
             child: SimpleOutlinedButton(
-                onPressed: () async {
-                  try {
-                    DateTime dateTime = DateTime.now();
-                    PdfModel pdfModel = ref.watch(pdfProvider).copyWith(lastUpdated: dateTime);
-                    await ref.watch(resumeController(widget.uid!).notifier).addToResume(pdfModel: pdfModel);
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: Text(
-                      'Your resume was saved!',
-                      style: bodyText14.copyWith(color: Pallete.backgroundColor),
-                    )));
-                  } catch (e) {
-                    log(e.toString());
-                  }
-                },
-                text: 'Save (' + timeAgoSinceDate(ref.watch(pdfProvider).lastUpdated) + ")"),
+              onPressed: () async {
+                try {
+                  final dateTime = DateTime.now();
+                  final pdfModel =
+                      ref.watch(pdfProvider).copyWith(lastUpdated: dateTime);
+                  await ref
+                      .watch(resumeController(widget.uid!).notifier)
+                      .addToResume(pdfModel: pdfModel);
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        'Your resume was saved!',
+                        style: bodyText14.copyWith(
+                          color: Pallete.backgroundColor,
+                        ),
+                      ),
+                    ),
+                  );
+                } catch (e) {
+                  log(e.toString());
+                }
+              },
+              text: 'Save (${timeAgo()})',
+            ),
           ),
       ];
     }
@@ -118,21 +139,25 @@ class _ResumeEditState extends ConsumerState<ResumeEdit> with AutomaticKeepAlive
         iconTheme: const IconThemeData(color: Pallete.primaryColor),
         centerTitle: false,
         leading: IconButton(
-            onPressed: () {
-              if (widget.uid == null) {
-                Get.offAndToNamed('/');
-              } else {
-                Get.offAndToNamed('home');
-              }
-            },
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Pallete.primaryColor,
-            )),
+          onPressed: () {
+            if (widget.uid == null) {
+              Get.offAndToNamed<void>('/');
+            } else {
+              Get.offAndToNamed<void>('home');
+            }
+          },
+          icon: const Icon(
+            Icons.arrow_back_ios,
+            color: Pallete.primaryColor,
+          ),
+        ),
         title: Text(
           'FRESUME',
           style: headline20.copyWith(
-              color: Pallete.primaryColor, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+            color: Pallete.primaryColor,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+          ),
         ),
         backgroundColor: Pallete.backgroundColor,
         shadowColor: Colors.black.withOpacity(0.3),
@@ -140,11 +165,12 @@ class _ResumeEditState extends ConsumerState<ResumeEdit> with AutomaticKeepAlive
       );
     }
 
-    return LayoutBuilder(builder: (context, constraints) {
-      if (constraints.maxWidth < 900) {
-        return DefaultTabController(
-          length: 2,
-          child: Scaffold(
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        if (constraints.maxWidth < 900) {
+          return DefaultTabController(
+            length: 2,
+            child: Scaffold(
               backgroundColor: Pallete.primaryLightColor,
               appBar: AppBar(
                 backgroundColor: Pallete.backgroundColor,
@@ -153,13 +179,17 @@ class _ResumeEditState extends ConsumerState<ResumeEdit> with AutomaticKeepAlive
                 title: Text(
                   'FRESUME',
                   style: headline20.copyWith(
-                      color: Pallete.primaryColor, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
+                    color: Pallete.primaryColor,
+                    fontWeight: FontWeight.bold,
+                    fontStyle: FontStyle.italic,
+                  ),
                 ),
                 bottom: TabBar(
                   labelStyle: subtitle14.copyWith(color: Pallete.primaryColor),
                   labelColor: Pallete.primaryColor,
                   unselectedLabelColor: Colors.grey.shade400,
-                  unselectedLabelStyle: subtitle14.copyWith(color: Colors.grey.shade400),
+                  unselectedLabelStyle:
+                      subtitle14.copyWith(color: Colors.grey.shade400),
                   tabs: const [
                     Tab(
                       text: 'Edit',
@@ -173,11 +203,12 @@ class _ResumeEditState extends ConsumerState<ResumeEdit> with AutomaticKeepAlive
               body: TabBarView(
                 children: [
                   Center(
-                      child: Container(
-                    height: double.infinity,
-                    color: Pallete.backgroundColor,
-                    child: const FormSide(),
-                  )),
+                    child: Container(
+                      height: double.infinity,
+                      color: Pallete.backgroundColor,
+                      child: const FormSide(),
+                    ),
+                  ),
                   Scaffold(
                     backgroundColor: Pallete.primaryLightColor,
                     body: const PdfDisplay(true),
@@ -188,52 +219,63 @@ class _ResumeEditState extends ConsumerState<ResumeEdit> with AutomaticKeepAlive
                         boxShadow: [
                           BoxShadow(
                             color: Colors.black.withOpacity(0.3),
-                            offset: const Offset(0.0, 1.0), //(x,y)
-                            blurRadius: 6.0,
+                            offset: const Offset(0, 1), //(x,y)
+                            blurRadius: 6,
                           ),
                         ],
-                        borderRadius: Shape.roundedShapeOnly(topLeft: 20, topRight: 20),
+                        borderRadius:
+                            Shape.roundedShapeOnly(topLeft: 20, topRight: 20),
                       ),
-                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: actionButton()),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: actionButton(),
+                      ),
                     ),
                   ),
                 ],
-              )),
-        );
-      } else {
-        return Scaffold(
-          backgroundColor: Pallete.primaryLightColor,
-          appBar: resumeAppbar(),
-          body: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Flexible(
+              ),
+            ),
+          );
+        } else {
+          return Scaffold(
+            backgroundColor: Pallete.primaryLightColor,
+            appBar: resumeAppbar(),
+            body: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Flexible(
                   child: Container(
-                constraints: const BoxConstraints(maxWidth: 850),
-                height: double.infinity,
-                color: Pallete.backgroundColor,
-                child: const FormSide(),
-              )),
-              Flexible(
-                  child: Center(
-                child: Scaffold(
-                  backgroundColor: Pallete.primaryLightColor,
-                  body: const PdfDisplay(false),
-                  bottomNavigationBar: Container(
-                    height: 60,
-                    decoration: BoxDecoration(
-                      color: Pallete.backgroundColor,
-                      borderRadius: Shape.roundedShapeOnly(topRight: 20),
-                    ),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center, children: actionButton()),
+                    constraints: const BoxConstraints(maxWidth: 850),
+                    height: double.infinity,
+                    color: Pallete.backgroundColor,
+                    child: const FormSide(),
                   ),
                 ),
-              )),
-            ],
-          ),
-        );
-      }
-    });
+                Flexible(
+                  child: Center(
+                    child: Scaffold(
+                      backgroundColor: Pallete.primaryLightColor,
+                      body: const PdfDisplay(false),
+                      bottomNavigationBar: Container(
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: Pallete.backgroundColor,
+                          borderRadius: Shape.roundedShapeOnly(topRight: 20),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: actionButton(),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        }
+      },
+    );
   }
 }
 
@@ -241,42 +283,49 @@ class ResumeEditWrapper extends ConsumerStatefulWidget {
   const ResumeEditWrapper({Key? key}) : super(key: key);
 
   @override
-  _ResumeEditWrapperState createState() => _ResumeEditWrapperState();
+  ResumeEditWrapperState createState() => ResumeEditWrapperState();
 }
 
-class _ResumeEditWrapperState extends ConsumerState<ResumeEditWrapper> {
+class ResumeEditWrapperState extends ConsumerState<ResumeEditWrapper> {
   @override
   Widget build(BuildContext context) {
-    String? id = Get.parameters['resumeId'];
+    final id = Get.parameters['resumeId'];
 
-    return ref.watch(authStateChangeProvider).when(data: (data) {
-      if (data != null && id != null) {
-        return FutureBuilder<PdfModel>(
-          future: PdfModelApi(data.uid, ref.watch(firebaseFirestoreProvider)).getSinglePdf(id),
-          builder: (BuildContext context, AsyncSnapshot<PdfModel> snapshot) {
-            WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
-              if (snapshot.hasData) {
-                if (snapshot.data!.pdfId == id) {
-                  ref.watch(pdfProvider.notifier).editPdf(snapshot.data!);
-                  ref.watch(tempPdfProvider.notifier).state = snapshot.data!;
+    return ref.watch(authStateChangeProvider).when(
+      data: (data) {
+        if (data != null && id != null) {
+          return FutureBuilder<PdfModel>(
+            future: PdfModelApi(data.uid, ref.watch(firebaseFirestoreProvider))
+                .getSinglePdf(id),
+            builder: (BuildContext context, AsyncSnapshot<PdfModel> snapshot) {
+              WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+                if (snapshot.hasData) {
+                  if (snapshot.data!.pdfId == id) {
+                    ref.watch(pdfProvider.notifier).editPdf(snapshot.data!);
+                    ref.watch(tempPdfProvider.notifier).state = snapshot.data!;
+                  }
                 }
+              });
+
+              if (snapshot.hasData && snapshot.data!.pdfId == id) {
+                return ResumeEdit(data.uid);
               }
-            });
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Container();
+              }
+              return const UnknownRoute();
+            },
+          );
+        }
 
-            if (snapshot.hasData && snapshot.data!.pdfId == id) return ResumeEdit(data.uid);
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container();
-            }
-            return const UnknownRoute();
-          },
-        );
-      }
-
-      return const NoLoginRoute();
-    }, loading: () {
-      return progressWidget(context);
-    }, error: (e, s) {
-      throw (e);
-    });
+        return const NoLoginRoute();
+      },
+      loading: () {
+        return progressWidget(context);
+      },
+      error: (e, s) {
+        throw UnimplementedError();
+      },
+    );
   }
 }
