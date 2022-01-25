@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresume_app/apis/auth.dart';
 import 'package:fresume_app/global/constants/constants.dart';
@@ -8,6 +9,7 @@ import 'package:fresume_app/global/theme/theme.dart';
 import 'package:fresume_app/global/widgets/loading.dart';
 import 'package:fresume_app/pages/home/view/home_view.dart';
 import 'package:fresume_app/pages/unknown/unknown_route.dart';
+import 'package:fresume_app/src/shared/shared.dart';
 import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_strategy/url_strategy.dart';
@@ -30,6 +32,13 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Fresume',
       debugShowCheckedModeBanner: false,
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
       builder: (context, widget) => ResponsiveWrapper.builder(
         widget,
         background: Container(
