@@ -22,13 +22,22 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "continueWithoutSignIn": MessageLookupByLibrary.simpleMessage(
+            "Continuar sin inicio de sesión"),
+        "createAFreeResumeNow":
+            MessageLookupByLibrary.simpleMessage("Crea un CV gratis ahora!"),
         "developedBy":
             MessageLookupByLibrary.simpleMessage("desarrollado por "),
         "download": MessageLookupByLibrary.simpleMessage("Descargar"),
         "edit": MessageLookupByLibrary.simpleMessage("Edición"),
         "fill": MessageLookupByLibrary.simpleMessage("Rellenar"),
         "language": MessageLookupByLibrary.simpleMessage("Idioma"),
+        "or": MessageLookupByLibrary.simpleMessage("o"),
         "preview": MessageLookupByLibrary.simpleMessage("Previsualización"),
+        "signInDescription": MessageLookupByLibrary.simpleMessage(
+            "Si inicias sesión con una cuenta de Google te permitirá guardar hasta 3 cv, puedes continuar sin pero el documento no será guardado si refrescas o dejas el sitio."),
+        "signInWithGoogle":
+            MessageLookupByLibrary.simpleMessage("Iniciar sesión con Google"),
         "systemLanguage":
             MessageLookupByLibrary.simpleMessage("Idioma del sistema")
       };

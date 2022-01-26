@@ -105,6 +105,7 @@ class LoginButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = S.of(context);
     return Flexible(
       child: Container(
         decoration: BoxDecoration(
@@ -150,14 +151,14 @@ class LoginButton extends ConsumerWidget {
                     onPressed: () {
                       controller.signInWithProvider(TargetPlatform.android);
                     },
-                    text: 'Sign in with Google',
+                    text: l10n.signInWithGoogle,
                   );
                 },
               ),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Text(
-                  'OR',
+                  l10n.or.toUpperCase(),
                   style: subtitle14.copyWith(
                     color: Pallete.primaryLightColor,
                     fontWeight: FontWeight.w400,
@@ -177,13 +178,13 @@ class LoginButton extends ConsumerWidget {
 
                   Get.toNamed<void>('/resume');
                 },
-                text: 'Continue without signing in',
+                text: l10n.continueWithoutSignIn,
               ),
               const SizedBox(
                 height: 16,
               ),
               Text(
-                'Using your Google account will allow you to save up to 3 resumes, you can still continue without signing in but your resume will not be saved once you leave/refresh the site.',
+                l10n.signInDescription,
                 style: caption12.copyWith(color: Pallete.backgroundColor),
                 textAlign: TextAlign.center,
               ),
@@ -224,7 +225,7 @@ class LogoAndTitleRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'CREATE A FREE RESUME NOW!',
+                    l10n.createAFreeResumeNow.toUpperCase(),
                     style: headline34.copyWith(
                       color: Pallete.primaryColor,
                       fontWeight: FontWeight.bold,
@@ -286,7 +287,7 @@ class LogoAndTitleColumn extends StatelessWidget {
             ),
           ),
           Text(
-            'CREATE A FREE RESUME NOW!',
+            l10n.createAFreeResumeNow,
             style: headline20.copyWith(
               color: Pallete.primaryColor,
               fontWeight: FontWeight.bold,

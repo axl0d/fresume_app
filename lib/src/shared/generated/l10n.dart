@@ -119,6 +119,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Continue without sign in`
+  String get continueWithoutSignIn {
+    return Intl.message(
+      'Continue without sign in',
+      name: 'continueWithoutSignIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Using your Google account will allow you to save up to 3 resumes, you can still continue without signing in but your resume will not be saved once you leave/refresh the site.`
+  String get signInDescription {
+    return Intl.message(
+      'Using your Google account will allow you to save up to 3 resumes, you can still continue without signing in but your resume will not be saved once you leave/refresh the site.',
+      name: 'signInDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `or`
+  String get or {
+    return Intl.message(
+      'or',
+      name: 'or',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign in with Google`
+  String get signInWithGoogle {
+    return Intl.message(
+      'Sign in with Google',
+      name: 'signInWithGoogle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Create a free resume now!`
+  String get createAFreeResumeNow {
+    return Intl.message(
+      'Create a free resume now!',
+      name: 'createAFreeResumeNow',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

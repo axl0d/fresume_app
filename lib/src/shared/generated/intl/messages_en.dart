@@ -22,12 +22,21 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "continueWithoutSignIn":
+            MessageLookupByLibrary.simpleMessage("Continue without sign in"),
+        "createAFreeResumeNow":
+            MessageLookupByLibrary.simpleMessage("Create a free resume now!"),
         "developedBy": MessageLookupByLibrary.simpleMessage("developed by "),
         "download": MessageLookupByLibrary.simpleMessage("Download"),
         "edit": MessageLookupByLibrary.simpleMessage("Edit"),
         "fill": MessageLookupByLibrary.simpleMessage("Fill"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "or": MessageLookupByLibrary.simpleMessage("or"),
         "preview": MessageLookupByLibrary.simpleMessage("Preview"),
+        "signInDescription": MessageLookupByLibrary.simpleMessage(
+            "Using your Google account will allow you to save up to 3 resumes, you can still continue without signing in but your resume will not be saved once you leave/refresh the site."),
+        "signInWithGoogle":
+            MessageLookupByLibrary.simpleMessage("Sign in with Google"),
         "systemLanguage":
             MessageLookupByLibrary.simpleMessage("System language")
       };

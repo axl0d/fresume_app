@@ -5,5 +5,10 @@
   "preview": "Previsualización",
   "language": "Idioma",
   "systemLanguage": "Idioma del sistema",
-  "developedBy": "desarrollado por "
+  "developedBy": "desarrollado por ",
+  "continueWithoutSignIn": "Continuar sin inicio de sesión",
+  "signInDescription": "Si inicias sesión con una cuenta de Google te permitirá guardar hasta 3 cv, puedes continuar sin pero el documento no será guardado si refrescas o dejas el sitio.",
+  "or": "o",
+  "signInWithGoogle": "Iniciar sesión con Google",
+  "createAFreeResumeNow": "Crea un CV gratis ahora!"
 }
