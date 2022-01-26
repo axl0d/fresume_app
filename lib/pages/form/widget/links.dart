@@ -8,6 +8,7 @@ import 'package:fresume_app/global/widgets/buttons.dart';
 import 'package:fresume_app/global/widgets/expansion.dart';
 import 'package:fresume_app/global/widgets/textfield.dart';
 import 'package:fresume_app/pages/form/controller/form_controller.dart';
+import 'package:fresume_app/src/shared/shared.dart';
 
 class LinksInfo extends ConsumerWidget {
   const LinksInfo({
@@ -17,8 +18,8 @@ class LinksInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _pdfProvider = ref.watch(pdfProvider);
-
     final linksList = _pdfProvider.links!;
+    final l10n = S.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -33,7 +34,7 @@ class LinksInfo extends ConsumerWidget {
               top: 10,
             ),
             child: Text(
-              'Your Links',
+              l10n.yourLinks,
               style: headline20.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
@@ -66,7 +67,7 @@ class LinksInfo extends ConsumerWidget {
               onPressed: () {
                 ref.read(pdfProvider.notifier).addLink(Links.createEmpty());
               },
-              text: 'Add another link',
+              text: l10n.addAnotherLink,
             ),
           )
         ],
@@ -96,6 +97,7 @@ class SectionFullWidgetState extends ConsumerState<LinksFullWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
         if (checkChangeText(linkNameController.text, widget.link.linkName)) {
@@ -108,14 +110,15 @@ class SectionFullWidgetState extends ConsumerState<LinksFullWidget> {
     });
 
     return BorderedExpansionTile(
-      title: widget.link.linkName ?? 'Test',
+      title: widget.link.linkName ?? l10n.test,
       children: [
         Row(
           children: [
             Flexible(
               child: RectBorderFormField(
                 textEditingController: linkNameController,
-                labelText: 'Link Name',
+                labelText: l10n.linkName,
+                hintText: l10n.linkNameHint,
                 onTextChanged: (val) {
                   ref
                       .read(pdfProvider.notifier)
@@ -126,7 +129,8 @@ class SectionFullWidgetState extends ConsumerState<LinksFullWidget> {
             Flexible(
               child: RectBorderFormField(
                 textEditingController: linkUrlController,
-                labelText: 'Link URL',
+                labelText: l10n.linkUrl,
+                hintText: l10n.linkUrlHint,
                 onTextChanged: (val) {
                   ref
                       .read(pdfProvider.notifier)
@@ -142,7 +146,7 @@ class SectionFullWidgetState extends ConsumerState<LinksFullWidget> {
             color: Pallete.errorColor,
             buttonWidth: double.infinity,
             onPressed: () => widget.onPressed(),
-            text: 'Remove this link',
+            text: l10n.removeThisLink,
           ),
         )
       ],

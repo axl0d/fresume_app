@@ -4,6 +4,7 @@ import 'package:fresume_app/global/functions/return_correct_string.dart';
 import 'package:fresume_app/global/theme/theme.dart';
 import 'package:fresume_app/global/widgets/textfield.dart';
 import 'package:fresume_app/pages/form/controller/form_controller.dart';
+import 'package:fresume_app/src/shared/shared.dart';
 
 class PersonalDetails extends ConsumerStatefulWidget {
   const PersonalDetails({
@@ -24,8 +25,8 @@ class PersonalDetailsState extends ConsumerState<PersonalDetails> {
   @override
   Widget build(BuildContext context) {
     final _pdfProvider = ref.watch(pdfProvider);
-
     final personal = _pdfProvider.resumePersonal!;
+    final l10n = S.of(context);
 
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
@@ -55,14 +56,15 @@ class PersonalDetailsState extends ConsumerState<PersonalDetails> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
             child: Text(
-              'Personal Details',
+              l10n.personalDetails,
               style: headline20.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
           RectBorderFormField(
             textEditingController: emailController,
             initialValue: _pdfProvider.resumePersonal!.email,
-            labelText: 'Email Address',
+            labelText: l10n.emailAddress,
+            hintText: l10n.emailAddressHint,
             onTextChanged: (val) {
               ref
                   .read(pdfProvider.notifier)
@@ -75,7 +77,8 @@ class PersonalDetailsState extends ConsumerState<PersonalDetails> {
                 child: RectBorderFormField(
                   textEditingController: firstNameController,
                   initialValue: returnCorrectStringString(personal.firstName),
-                  labelText: 'First Name',
+                  labelText: l10n.firstName,
+                  hintText: l10n.firstNameHint,
                   onTextChanged: (val) {
                     ref
                         .read(pdfProvider.notifier)
@@ -87,7 +90,8 @@ class PersonalDetailsState extends ConsumerState<PersonalDetails> {
                 child: RectBorderFormField(
                   textEditingController: lastNameController,
                   initialValue: returnCorrectStringString(personal.lastName),
-                  labelText: 'Last Name',
+                  labelText: l10n.lastName,
+                  hintText: l10n.lastNameHint,
                   onTextChanged: (val) {
                     ref
                         .read(pdfProvider.notifier)
@@ -103,8 +107,8 @@ class PersonalDetailsState extends ConsumerState<PersonalDetails> {
                 child: RectBorderFormField(
                   textEditingController: jobRoleController,
                   initialValue: returnCorrectStringString(personal.jobTitle),
-                  labelText: 'Job Role',
-                  hintText: 'eg. Software Developer',
+                  labelText: l10n.jobRole,
+                  hintText: l10n.jobRoleHint,
                   onTextChanged: (val) {
                     ref
                         .read(pdfProvider.notifier)
@@ -116,7 +120,8 @@ class PersonalDetailsState extends ConsumerState<PersonalDetails> {
                 child: RectBorderFormField(
                   textEditingController: phoneController,
                   initialValue: returnCorrectStringString(personal.email),
-                  labelText: 'Phone Number',
+                  labelText: l10n.phoneNumber,
+                  hintText: l10n.phoneNumberHint,
                   onTextChanged: (val) {
                     ref
                         .read(pdfProvider.notifier)

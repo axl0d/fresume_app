@@ -8,6 +8,7 @@ import 'package:fresume_app/global/widgets/buttons.dart';
 import 'package:fresume_app/global/widgets/expansion.dart';
 import 'package:fresume_app/global/widgets/textfield.dart';
 import 'package:fresume_app/pages/form/controller/form_controller.dart';
+import 'package:fresume_app/src/shared/shared.dart';
 
 class LanguagesInfo extends ConsumerWidget {
   const LanguagesInfo({
@@ -17,8 +18,8 @@ class LanguagesInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _pdfProvider = ref.watch(pdfProvider);
-
     final languagesList = _pdfProvider.languages!;
+    final l10n = S.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -33,7 +34,7 @@ class LanguagesInfo extends ConsumerWidget {
               top: 10,
             ),
             child: Text(
-              'Your Languages',
+              l10n.yourLanguages,
               style: headline20.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
@@ -66,7 +67,7 @@ class LanguagesInfo extends ConsumerWidget {
               onPressed: () {
                 ref.read(pdfProvider.notifier).addLanguage(Skill.createEmpty());
               },
-              text: 'Add another language',
+              text: l10n.addAnotherLanguage,
             ),
           )
         ],
@@ -94,6 +95,7 @@ class SectionFullWidgetState extends ConsumerState<LanguageFullWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
         if (checkChangeText(
@@ -106,11 +108,11 @@ class SectionFullWidgetState extends ConsumerState<LanguageFullWidget> {
     });
 
     return BorderedExpansionTile(
-      title: widget.language.skillName ?? 'Test',
+      title: widget.language.skillName ?? l10n.test,
       children: [
         RectBorderFormField(
           textEditingController: languageNameController,
-          labelText: 'Skill Name',
+          labelText: l10n.skillName,
           onTextChanged: (val) {
             ref
                 .read(pdfProvider.notifier)
@@ -123,7 +125,7 @@ class SectionFullWidgetState extends ConsumerState<LanguageFullWidget> {
             color: Pallete.errorColor,
             buttonWidth: double.infinity,
             onPressed: () => widget.onPressed(),
-            text: 'Remove this language',
+            text: l10n.removeThisLanguage,
           ),
         )
       ],

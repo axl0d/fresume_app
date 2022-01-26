@@ -8,6 +8,7 @@ import 'package:fresume_app/global/widgets/buttons.dart';
 import 'package:fresume_app/global/widgets/expansion.dart';
 import 'package:fresume_app/global/widgets/textfield.dart';
 import 'package:fresume_app/pages/form/controller/form_controller.dart';
+import 'package:fresume_app/src/shared/shared.dart';
 
 class EducationHistory extends ConsumerWidget {
   const EducationHistory({
@@ -17,8 +18,8 @@ class EducationHistory extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _pdfProvider = ref.watch(pdfProvider);
-
     final educationList = _pdfProvider.education!;
+    final l10n = S.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -33,7 +34,7 @@ class EducationHistory extends ConsumerWidget {
               top: 10,
             ),
             child: Text(
-              'Education History',
+              l10n.educationHistory,
               style: headline20.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
@@ -68,7 +69,7 @@ class EducationHistory extends ConsumerWidget {
                     .read(pdfProvider.notifier)
                     .addEducationSection(Section.createEmpty());
               },
-              text: 'Add another education',
+              text: l10n.addAnotherEducation,
             ),
           )
         ],
@@ -101,6 +102,7 @@ class SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
         if (checkChangeText(jobController.text, widget.section.textOne)) {
@@ -131,14 +133,14 @@ class SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
     });
 
     return BorderedExpansionTile(
-      title: widget.section.textOne ?? 'Test',
+      title: widget.section.textOne ?? l10n.test,
       children: [
         Row(
           children: [
             Flexible(
               child: RectBorderFormField(
                 textEditingController: jobController,
-                labelText: 'School',
+                labelText: l10n.school,
                 onTextChanged: (val) {
                   ref.read(pdfProvider.notifier).editEducationSection(
                         widget.section.copyWith(textOne: val),
@@ -149,7 +151,7 @@ class SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
             Flexible(
               child: RectBorderFormField(
                 textEditingController: employerController,
-                labelText: 'Degree',
+                labelText: l10n.degree,
                 onTextChanged: (val) {
                   ref.read(pdfProvider.notifier).editEducationSection(
                         widget.section.copyWith(textTwo: val),
@@ -167,7 +169,7 @@ class SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
                   Flexible(
                     child: RectBorderFormField(
                       textEditingController: startDateController,
-                      labelText: 'Start Date',
+                      labelText: l10n.startDate,
                       onTextChanged: (val) {
                         ref.read(pdfProvider.notifier).editEducationSection(
                               widget.section.copyWith(startDate: val),
@@ -178,7 +180,7 @@ class SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
                   Flexible(
                     child: RectBorderFormField(
                       textEditingController: endDateController,
-                      labelText: 'End Date',
+                      labelText: l10n.endDate,
                       onTextChanged: (val) {
                         ref.read(pdfProvider.notifier).editEducationSection(
                               widget.section.copyWith(endDate: val),
@@ -192,7 +194,7 @@ class SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
             Flexible(
               child: RectBorderFormField(
                 textEditingController: cityController,
-                labelText: 'City',
+                labelText: l10n.city,
                 onTextChanged: (val) {
                   ref.read(pdfProvider.notifier).editEducationSection(
                         widget.section.copyWith(textThree: val),
@@ -205,7 +207,7 @@ class SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
         RectBorderFormField(
           maxLines: 9,
           maxLength: 500,
-          labelText: 'Description',
+          labelText: l10n.description,
           textEditingController: descriptionController,
           onTextChanged: (val) {
             ref.read(pdfProvider.notifier).editEducationSection(
@@ -219,7 +221,7 @@ class SectionFullWidgetState extends ConsumerState<SectionFullWidget> {
             color: Pallete.errorColor,
             buttonWidth: double.infinity,
             onPressed: () => widget.onPressed(),
-            text: 'Remove this education',
+            text: l10n.removeThisEducation,
           ),
         )
       ],

@@ -8,6 +8,7 @@ import 'package:fresume_app/global/widgets/buttons.dart';
 import 'package:fresume_app/global/widgets/expansion.dart';
 import 'package:fresume_app/global/widgets/textfield.dart';
 import 'package:fresume_app/pages/form/controller/form_controller.dart';
+import 'package:fresume_app/src/shared/shared.dart';
 
 class SkillsInfo extends ConsumerWidget {
   const SkillsInfo({
@@ -17,8 +18,8 @@ class SkillsInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final _pdfProvider = ref.watch(pdfProvider);
-
     final skillsList = _pdfProvider.skills!;
+    final l10n = S.of(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -33,7 +34,7 @@ class SkillsInfo extends ConsumerWidget {
               top: 10,
             ),
             child: Text(
-              'Your Skills',
+              l10n.yourSkills,
               style: headline20.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
@@ -66,7 +67,7 @@ class SkillsInfo extends ConsumerWidget {
               onPressed: () {
                 ref.read(pdfProvider.notifier).addSkill(Skill.createEmpty());
               },
-              text: 'Add another skill',
+              text: l10n.addAnotherSkill,
             ),
           )
         ],
@@ -94,6 +95,7 @@ class SectionFullWidgetState extends ConsumerState<SkillFullWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
         if (checkChangeText(skillNameController.text, widget.skill.skillName)) {
@@ -103,11 +105,11 @@ class SectionFullWidgetState extends ConsumerState<SkillFullWidget> {
     });
 
     return BorderedExpansionTile(
-      title: widget.skill.skillName ?? 'Test',
+      title: widget.skill.skillName ?? l10n.test,
       children: [
         RectBorderFormField(
           textEditingController: skillNameController,
-          labelText: 'Skill Name',
+          labelText: l10n.skillName,
           onTextChanged: (val) {
             ref
                 .read(pdfProvider.notifier)
@@ -120,7 +122,7 @@ class SectionFullWidgetState extends ConsumerState<SkillFullWidget> {
             color: Pallete.errorColor,
             buttonWidth: double.infinity,
             onPressed: () => widget.onPressed(),
-            text: 'Remove this skill',
+            text: l10n.removeThisSkill,
           ),
         )
       ],

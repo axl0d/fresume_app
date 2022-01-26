@@ -4,6 +4,7 @@ import 'package:fresume_app/global/functions/return_correct_string.dart';
 import 'package:fresume_app/global/theme/theme.dart';
 import 'package:fresume_app/global/widgets/textfield.dart';
 import 'package:fresume_app/pages/form/controller/form_controller.dart';
+import 'package:fresume_app/src/shared/shared.dart';
 
 class ProfileSummary extends ConsumerStatefulWidget {
   const ProfileSummary({
@@ -19,8 +20,8 @@ class ProfileSummaryState extends ConsumerState<ProfileSummary> {
   @override
   Widget build(BuildContext context) {
     final _pdfProvider = ref.watch(pdfProvider);
-
     final summary = _pdfProvider.resumeSummary!;
+    final l10n = S.of(context);
 
     WidgetsBinding.instance!.addPostFrameCallback((_) async {
       setState(() {
@@ -46,7 +47,7 @@ class ProfileSummaryState extends ConsumerState<ProfileSummary> {
               top: 10,
             ),
             child: Text(
-              'Profile',
+              l10n.profile,
               style: headline20.copyWith(fontWeight: FontWeight.w600),
             ),
           ),
@@ -54,8 +55,8 @@ class ProfileSummaryState extends ConsumerState<ProfileSummary> {
             textEditingController: summaryController,
             maxLines: 9,
             maxLength: 500,
-            labelText: 'Summary',
-            hintText: 'eg. I am a motivated IT graduate looking forward...',
+            labelText: l10n.summary,
+            hintText: l10n.summaryHint,
             onTextChanged: (val) {
               ref
                   .read(pdfProvider.notifier)
