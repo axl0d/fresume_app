@@ -1,1 +1,9 @@
-{}
+{
+  "fill": "Fill",
+  "download": "Download",
+  "edit": "Edit",
+  "preview": "Preview",
+  "language": "Language",
+  "systemLanguage": "System language",
+  "developedBy": "developed by "
+}

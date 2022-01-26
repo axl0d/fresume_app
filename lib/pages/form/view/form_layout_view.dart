@@ -20,6 +20,7 @@ import 'package:fresume_app/pages/form/view/form_view.dart';
 import 'package:fresume_app/pages/form/view/pdf_view.dart';
 import 'package:fresume_app/pages/unknown/not_logged_in.dart';
 import 'package:fresume_app/pages/unknown/unknown_route.dart';
+import 'package:fresume_app/src/shared/shared.dart';
 import 'package:get/get.dart';
 import 'package:printing/printing.dart';
 
@@ -75,6 +76,7 @@ class ResumeEditState extends ConsumerState<ResumeEdit>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+    final l10n = S.of(context);
 
     List<Widget> actionButton() {
       return [
@@ -84,7 +86,7 @@ class ResumeEditState extends ConsumerState<ResumeEdit>
             onPressed: () async {
               ref.read(pdfProvider.notifier).editPdf(pdfModelData);
             },
-            text: 'Fill',
+            text: l10n.fill,
           ),
         ),
         Padding(
@@ -99,7 +101,7 @@ class ResumeEditState extends ConsumerState<ResumeEdit>
                 filename: 'resume.pdf',
               );
             },
-            text: 'Download',
+            text: l10n.download,
           ),
         ),
         if (widget.uid != null)
@@ -190,13 +192,9 @@ class ResumeEditState extends ConsumerState<ResumeEdit>
                   unselectedLabelColor: Colors.grey.shade400,
                   unselectedLabelStyle:
                       subtitle14.copyWith(color: Colors.grey.shade400),
-                  tabs: const [
-                    Tab(
-                      text: 'Edit',
-                    ),
-                    Tab(
-                      text: 'Preview',
-                    ),
+                  tabs: [
+                    Tab(text: l10n.edit),
+                    Tab(text: l10n.preview),
                   ],
                 ),
               ),

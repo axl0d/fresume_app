@@ -7,8 +7,10 @@ import 'package:fresume_app/global/models/pdf_model.dart';
 import 'package:fresume_app/global/theme/pallete.dart';
 import 'package:fresume_app/global/theme/theme.dart';
 import 'package:fresume_app/global/widgets/buttons.dart';
+import 'package:fresume_app/global/widgets/language_drop_down.dart';
 import 'package:fresume_app/global/widgets/shape.dart';
 import 'package:fresume_app/pages/form/controller/form_controller.dart';
+import 'package:fresume_app/src/shared/shared.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -34,6 +36,8 @@ class HomeAuthView extends ConsumerWidget {
                     shadowColor: Colors.black.withOpacity(0.4),
                     child: Column(
                       children: [
+                        const SizedBox(height: 5),
+                        const LanguageDropDown(),
                         const LogoAndTitleRow(),
                         Expanded(
                           child: Row(
@@ -54,6 +58,8 @@ class HomeAuthView extends ConsumerWidget {
               color: Pallete.primaryLightColor,
               child: Column(
                 children: const [
+                  SizedBox(height: 5),
+                  LanguageDropDown(),
                   LogoAndTitleColumn(),
                   ExampleImage(),
                   SizedBox(height: 16),
@@ -196,55 +202,60 @@ class LogoAndTitleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Container(
       color: Pallete.primaryLightColor,
-      child: Row(
+      child: Column(
         children: [
-          Container(
-            margin: const EdgeInsets.all(36),
-            height: 100,
-            width: 100,
-            decoration: BoxDecoration(
-              borderRadius: Shape.roundedShapeAll(20),
-              image: const DecorationImage(
-                image: NetworkImage(logo),
-              ),
-            ),
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          Row(
             children: [
-              Text(
-                'CREATE A FREE RESUME NOW!',
-                style: headline34.copyWith(
-                  color: Pallete.primaryColor,
-                  fontWeight: FontWeight.bold,
+              Container(
+                margin: const EdgeInsets.all(36),
+                height: 100,
+                width: 100,
+                decoration: BoxDecoration(
+                  borderRadius: Shape.roundedShapeAll(20),
+                  image: const DecorationImage(
+                    image: NetworkImage(logo),
+                  ),
                 ),
               ),
-              Row(
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'developed by ',
-                    style: subtitle16.copyWith(color: Pallete.primaryColor),
-                  ),
-                  GestureDetector(
-                    onTap: () async {
-                      await launch(
-                        'https://www.linkedin.com/in/varun-bhalerao-677a48179/',
-                      );
-                    },
-                    child: Text(
-                      'Varun Bhalerao',
-                      style: subtitle16.copyWith(
-                        decoration: TextDecoration.underline,
-                        color: Pallete.primaryColor,
-                      ),
+                    'CREATE A FREE RESUME NOW!',
+                    style: headline34.copyWith(
+                      color: Pallete.primaryColor,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
+                  Row(
+                    children: [
+                      Text(
+                        l10n.developedBy,
+                        style: subtitle16.copyWith(color: Pallete.primaryColor),
+                      ),
+                      GestureDetector(
+                        onTap: () async {
+                          await launch(
+                            'https://www.linkedin.com/in/varun-bhalerao-677a48179/',
+                          );
+                        },
+                        child: Text(
+                          'Varun Bhalerao',
+                          style: subtitle16.copyWith(
+                            decoration: TextDecoration.underline,
+                            color: Pallete.primaryColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
-              ),
+              )
             ],
-          )
+          ),
         ],
       ),
     );
@@ -258,6 +269,7 @@ class LogoAndTitleColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Container(
       color: Pallete.primaryLightColor,
       child: Column(
@@ -284,7 +296,7 @@ class LogoAndTitleColumn extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'developed by ',
+                l10n.developedBy,
                 style: subtitle14.copyWith(color: Pallete.primaryColor),
               ),
               GestureDetector(

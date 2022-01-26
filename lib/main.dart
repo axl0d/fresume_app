@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter_localized_locales/flutter_localized_locales.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:fresume_app/apis/auth.dart';
 import 'package:fresume_app/global/constants/constants.dart';
@@ -14,6 +15,8 @@ import 'package:get/get.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:url_strategy/url_strategy.dart';
 
+final localeProvider = StateProvider<Locale?>((_) => null);
+
 //Test commit
 Future<void> main() async {
   setPathUrlStrategy();
@@ -24,11 +27,12 @@ Future<void> main() async {
   runApp(const ProviderScope(child: MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends ConsumerWidget {
   const MyApp({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final locale = ref.watch(localeProvider);
     return GetMaterialApp(
       title: 'Fresume',
       debugShowCheckedModeBanner: false,
@@ -37,8 +41,10 @@ class MyApp extends StatelessWidget {
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
+        LocaleNamesLocalizationsDelegate(),
       ],
       supportedLocales: S.delegate.supportedLocales,
+      locale: locale,
       builder: (context, widget) => ResponsiveWrapper.builder(
         widget,
         background: Container(
